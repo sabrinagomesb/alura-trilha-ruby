@@ -1,5 +1,35 @@
 require_relative 'user_interface'
-# ELA RETORNE UMA STRING COM MASCARA
+
+def save_hank(player_name, total_score)
+  container = "#{player_name}\n#{total_score}"
+  File.write "rank.txt", container
+end
+
+def choose_secret_word
+  alert_choosing_secret_word
+  text = File.read("dictionary.txt")
+  all_words = text.split "\n"
+  random_number = rand(all_words.size)
+  secret_word = all_words[random_number].downcase
+  alert_choosed_secret_word(secret_word)
+  return secret_word
+end
+
+def choose_secret_word_with_performace
+  alert_choosing_secret_word
+  file = File.new("dictionary.txt")
+  total_words = file.gets.to_i
+  random_number = rand(total_words)
+  for line in 1.. (random_number-1)
+    file.gets
+  end
+  secret_word = file.gets.strip.downcase
+  file.close
+  alert_choosed_secret_word(secret_word)
+  return secret_word
+end
+
+
 def mask_word(guesses, secret_word)
   mask = ""
   for letter in secret_word.chars
@@ -26,7 +56,7 @@ def ask_valid_guess(guesses, error_count, mask)
 end
 
 def play(player_name)
-  secret_word = choose_secret_word
+  secret_word = choose_secret_word_with_performace
   error_count = 0
   guesses = []
   score_so_far = 0
@@ -59,13 +89,17 @@ def play(player_name)
     end
   end
   alert_score(score_so_far)
+  return score_so_far
 end
 
 def hangman_game
   player_name = welcome_game
+  total_score = 0
   loop do
-    play(player_name) 
+    total_score += play(player_name)
+    save_hank(player_name, total_score)
     if not_play_again
+      alert_total_score(total_score)
       break
     end
   end

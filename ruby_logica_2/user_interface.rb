@@ -31,11 +31,12 @@ def welcome_game
   return name
 end
 
-def choose_secret_word
+def alert_choosing_secret_word
   puts "Escolhendo uma palavra secreta para você..."
-  secret_word = "programadora"
+end
+
+def alert_choosed_secret_word(secret_word)
   puts "Palavra secreta com #{secret_word.size} letras. Boa sorte!"
-  return secret_word
 end
 
 def not_play_again
@@ -53,7 +54,7 @@ end
 
 def make_guess
   puts "Entre com uma letra ou uma palavra"
-  guess = gets.strip
+  guess = gets.strip.downcase
   puts "Será que acertou? Você chutou #{guess}"
   return guess
 end
@@ -66,4 +67,8 @@ def find_matches(word, letter)
     end
   end
   return found_matches_count
+end
+      
+def alert_total_score(total_score)
+  puts "Valeu por jogar. Você fez #{total_score} pontos no total."  
 end
