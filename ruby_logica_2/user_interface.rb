@@ -7,7 +7,19 @@ def alert_fail
 end
 
 def alert_congratulations
-  puts "Parabéns! Você acertou!"
+    puts "\nParabéns, você ganhou!"
+		puts
+		puts "       ___________      "
+		puts "      '._==_==_=_.'     "
+		puts "      .-\\:      /-.    "
+		puts "     | (|:.     |) |    "
+		puts "      '-|:.     |-'     "
+		puts "        \\::.    /      "
+		puts "         '::. .'        "
+		puts "           ) (          "
+		puts "         _.' '._        "
+		puts "        '-------'       "
+		puts
 end
 
 def alert_letter_found(found_letters_count)
@@ -23,12 +35,45 @@ def alert_guess(guess)
 end
 
 def welcome_game
-  puts "Bem vinde ao jogo da forca!"
+  puts "/********************/"
+  puts "/  Jogo da Forca    */"
+  puts "/********************/"
   puts "Qual é o seu nome?"
   name = gets.strip
   puts "\n\n\n"
   puts "Começaremos o jogo para você, #{name}"
   return name
+end
+
+def draw_hangman(error_count)
+	head = "   "
+	body = " "
+	legs = "   "
+	arms = "   "
+	if error_count >= 1
+		head = "(_)"
+	end
+	if error_count >= 2
+		arms = " | "
+		body = "|"
+	end
+	if error_count >= 3
+		arms = "\\|/"
+	end
+	if error_count >= 4
+		legs = "/ \\"
+	end
+
+	puts "  _______       "
+	puts " |/      |      "
+	puts " |      #{head}  "
+	puts " |      #{arms}  "
+	puts " |       #{body}     "
+	puts " |      #{legs}   "
+	puts " |              "
+	puts "_|___           "
+	puts 
+ 
 end
 
 def alert_choosing_secret_word
@@ -47,6 +92,7 @@ end
 
 def header_make_guess(guesses, error_count, mask)
   puts "\n\n"
+  draw_hangman(error_count)
   puts "Palavra secreta: #{mask}"
   puts "Erros até agora: #{error_count}"
   puts "Chutes até agora: #{guesses}"
@@ -71,4 +117,8 @@ end
       
 def alert_total_score(total_score)
   puts "Valeu por jogar. Você fez #{total_score} pontos no total."  
+end
+
+def show_champ(data)
+  puts "Nosso campeão atual é #{data[0]} com #{data[1]} pontos. "
 end

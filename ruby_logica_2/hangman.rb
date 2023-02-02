@@ -1,9 +1,5 @@
 require_relative 'user_interface'
-
-def save_hank(player_name, total_score)
-  container = "#{player_name}\n#{total_score}"
-  File.write "rank.txt", container
-end
+require_relative 'rank'
 
 def choose_secret_word
   alert_choosing_secret_word
@@ -95,9 +91,14 @@ end
 def hangman_game
   player_name = welcome_game
   total_score = 0
+
+  show_champ(show_rank)
+
   loop do
     total_score += play(player_name)
-    save_hank(player_name, total_score)
+    if show_rank[1].to_i < total_score
+      save_hank(player_name, total_score)
+    end
     if not_play_again
       alert_total_score(total_score)
       break
