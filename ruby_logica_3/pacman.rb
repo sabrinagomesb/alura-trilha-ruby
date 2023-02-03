@@ -41,14 +41,36 @@ def is_position_valid?(map, position)
   if border_line || border_colummn
     return false
   end
-  if map[position[0]][position[1]] == "X"
+
+  current_value = map[position[0]][position[1]]
+  if current_value == "X" || current_value == "F"
     return false
   end
   true
 end
 
+def move_ghost(map, line, column)
+  position = [line, column + 1]
+  if is_position_valid? map, position
+    map[line][column] = " "
+    map[position[0]][position[1]] = "F"
+  end
+end
+
+def ghosts_move map
+  ghost_char = "F"
+  map.each_with_index do |current_line, line|
+    current_line.chars.each_with_index do | current_char, column |
+      its_a_ghost = current_char == ghost_char
+      if its_a_ghost
+        move_ghost map, line, column
+      end
+    end
+  end
+end
+
 def game(name)
-  map = read_map 1
+  map = read_map 2
   while true
     draw_map map
     direction = ask_move
@@ -62,6 +84,9 @@ def game(name)
 
     map[hero[0]][hero[1]] = " "
     map[new_position[0]][new_position[1]] = "O"
+
+    ghosts_move map
+
   end
 end
 
