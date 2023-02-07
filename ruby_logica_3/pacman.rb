@@ -1,4 +1,5 @@
 require_relative 'ui'
+require_relative 'hero'
 
 def read_map(number)
   file = "map_#{number}.txt"
@@ -11,26 +12,15 @@ def find_player(map)
   map.each_with_index do |current_line, line|
     hero_column = current_line.index hero_char
     if hero_column
-      return [line, hero_column]
+      player = Hero.new
+      player.line = line
+      player.column = hero_column
+      return player
     end
   end
   nil
 end
 
-def calc_hero_position hero, direction
-  hero = hero.dup
-  moves = {
-    "W" => [-1, 0],
-    "S" => [1, 0],
-    "A" => [0, -1],
-    "D" => [0, 1]
-  }
-
-  move = moves[direction] 
-  hero[0] += move[0]
-  hero[1] += move[1]
-  hero
-end
 
 def is_position_valid?(map, position)
   lines = map.size
@@ -110,14 +100,14 @@ def game(name)
     direction = ask_move
 
     hero = find_player map
-    new_position = calc_hero_position hero, direction
+    new_position = hero.calc_hero_position direction
     
-    if !is_position_valid? map, new_position
+    if !is_position_valid? map, new_position.to_array
       next
     end
+    hero.remove_from map
+    new_position.puts_on map
 
-    map[hero[0]][hero[1]] = " "
-    map[new_position[0]][new_position[1]] = "O"
 
     map = ghosts_move map
     if player_lost?(map)
