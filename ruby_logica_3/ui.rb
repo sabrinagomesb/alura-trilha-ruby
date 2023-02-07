@@ -15,3 +15,8 @@ def ask_move
   puts "Para onde você quer ir?"
   gets.strip
 end
+
+def game_over
+  puts "\n\n\n"
+  puts "GAME OVER!"
+end
