@@ -93,8 +93,26 @@ def player_lost?(map)
   lost = !find_player(map)
 end
 
+def run_remove(map, position, amount)
+  if map[position.line][position.column] == "X"
+    return
+  end
+  position.remove_from map
+  remove map, position, amount - 1
+end
+
+def remove(map, position, amount)
+  if amount == 0
+    return
+  end
+  run_remove map, position.right, amount
+  run_remove map, position.up, amount
+  run_remove map, position.left, amount
+  run_remove map, position.down, amount
+end
+
 def game(name)
-  map = read_map 2
+  map = read_map 4
   while true
     draw_map map
     direction = ask_move
@@ -106,10 +124,13 @@ def game(name)
       next
     end
     hero.remove_from map
+    if map[new_position.line][new_position.column] == "*"
+      remove map, new_position, 3
+    end
+
     new_position.puts_on map
-
-
     map = ghosts_move map
+
     if player_lost?(map)
       game_over
       break

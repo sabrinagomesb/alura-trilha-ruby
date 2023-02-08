@@ -1,3 +1,4 @@
+
 class Hero
   attr_accessor :line, :column
 
@@ -9,11 +10,23 @@ class Hero
     "A" => [0, -1],
     "D" => [0, 1]
   }
-
   move = moves[direction] 
   new_hero.line += move[0]
   new_hero.column += move[1]
   new_hero
+  end
+
+  def right
+    calc_hero_position "D"
+  end
+  def up
+    calc_hero_position "W"
+  end
+  def left
+    calc_hero_position "A"
+  end
+  def down
+    calc_hero_position "S"
   end
 
   def to_array
