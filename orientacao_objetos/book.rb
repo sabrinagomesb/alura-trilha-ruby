@@ -31,10 +31,24 @@ class Book
   end
 end
 
+module Count
+  def <<(item)
+    push(item)
+    if @max_need.nil? || @max_need < size
+        @max_need = size
+    end
+    self
+  end
+  def max_need
+    @max_need
+  end
+end
+
 class Stock
   attr_reader :books
   def initialize
     @books = []
+    @books.extend Count
   end
 
   def export_csv
@@ -53,21 +67,36 @@ class Stock
     @books.size
   end
 
-  def add(book)
+  def <<(book)
     @books << book if book
+    self
   end
 
+  def remove(book)
+    @books.delete book
+  end
+
+  def max_need
+    @books.max_need
+  end
 end
 
 stock = Stock.new
 
 stock.add Book.new("Lógica de Programação", 50, 2009, true)
-stock.add Book.new("Agile Web", 100, 1999, false)
-stock.add Book.new("Ruby 7", 1000, 2023, true)
-stock.add Book.new("Arquitetura", 100, 2004, true)
+agile = Book.new("Agile Web", 100, 1999, false)
+ruby = Book.new("Ruby 7", 1000, 2023, true)
+arch = Book.new("Arquitetura", 100, 2004, true)
 
-stock.add nil
-stock.export_csv
+stock.books << agile << ruby << arch
+puts stock.books.max_need
+
+numbers = []
+numbers.extend Count
+numbers << 13 << 15 << 17 << 19 << 21
+puts numbers.max_need
+
+# stock.export_csv
 
 cheap = stock.cheaper_than(50)
 cheap.each do |book|
