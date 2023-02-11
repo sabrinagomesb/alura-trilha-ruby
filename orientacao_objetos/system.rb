@@ -8,8 +8,11 @@ agile = Book.new("Agile Web", 100, 1999, "Uno", false, "book")
 ruby = Book.new("Ruby 7", 1000, 2023, "Five", true, "book")
 arch = Book.new("Arquitetura", 100, 2004, "Six", true, "book")
 mag_ruby = Book.new("Magazine Ruby", 15, 2012, "Ten", true, "mag")
+online_arch = Book.new("Arquitetura", 5000, 2004, "Six", true, "ebook")
 
-stock.books << agile << ruby << arch << agile << ruby << arch << agile << ruby << arch << logic << logic << ruby << mag_ruby << mag_ruby
+stock.books << agile << ruby << arch << agile << ruby << arch << agile << ruby << arch << logic << logic << ruby << mag_ruby << mag_ruby << online_arch
+
+stock.sale online_arch
 stock.sale logic
 stock.sale logic
 stock.sale agile
@@ -20,16 +23,12 @@ stock.sale ruby
 stock.sale arch
 stock.sale mag_ruby
 
-puts "Livro mais vendido:"
+puts "- Ebook mais vendido:"
+puts stock.ebook_best_seller_by_title.title
+puts "- Livro mais vendido:"
 puts stock.book_best_seller_by_title.title
-puts "Ano que mais vendeu:"
-puts stock.book_best_seller_by_year.year
-puts "Editora que mais vendeu:"
-puts stock.book_best_seller_by_publisher.publisher
-puts "Revista mais vendida:"
+puts "- Revista mais vendido:"
 puts stock.mag_best_seller_by_title.title
-
-
 
 # stock.export_csv
 cheap = stock.cheaper_than(50)

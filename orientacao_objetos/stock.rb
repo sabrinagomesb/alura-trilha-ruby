@@ -8,31 +8,19 @@ class Stock
     @books.extend Count
   end
 
-  def sales_amount_by_title(product, &field)
-    @sales.count { |sale| field.call(sale) == field.call(product)}
+  def method_missing(name)
+    matcher = name.to_s.match "(.+)_best_seller_by_(.+)"
+    if matcher
+      type = matcher[1]
+      field = matcher[2].to_sym
+      best_seller_by(type, &field)
+    else
+      super
+    end
   end
 
-  def best_seller_by(type, &field)
-    @sales.select { |l| l.type == type} .sort { | sale1, sale2 |
-      sales_amount_by_title(sale1, &field) <=>
-      sales_amount_by_title(sale2, &field)
-    }.last
-  end
-
-  def mag_best_seller_by_title
-    best_seller_by("mag", &:title)
-  end
-
-  def book_best_seller_by_title
-    best_seller_by("book", &:title)
-  end
-
-  def book_best_seller_by_year
-    best_seller_by("book", &:year)
-  end
-
-  def book_best_seller_by_publisher
-    best_seller_by("book", &:publisher)
+  def respond_to?(name)
+    name.to_s.match( "(.+)_best_seller_by_(.+)") || super
   end
 
   def export_csv
@@ -63,5 +51,17 @@ class Stock
 
   def max_need
     @books.max_need
+  end
+
+  private
+  def sales_amount_by_title(product, &field)
+    @sales.count { |sale| field.call(sale) == field.call(product)}
+  end
+
+  def best_seller_by(type, &field)
+    @sales.select { |l| l.type == type} .sort { | sale1, sale2 |
+      sales_amount_by_title(sale1, &field) <=>
+      sales_amount_by_title(sale2, &field)
+    }.last
   end
 end
