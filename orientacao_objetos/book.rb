@@ -1,5 +1,10 @@
+require_relative 'Product'
+
 class Book
-  attr_reader :title, :price, :year, :publisher, :has_reprint
+  attr_reader :has_reprint
+
+  include Product
+
   def initialize(title, price, year, publisher, has_reprint, has_cover)
     @title = title
     @year = year
@@ -9,10 +14,6 @@ class Book
     @publisher = publisher
   end
   
-  def to_csv
-    "#{@title},#{@year},#{@price}"
-  end
-
   def has_reprint?
     @has_reprint
   end
@@ -25,20 +26,6 @@ class Book
     ["book", "printed"].include?(query)
   end
 
-  private
-  def calc_price(price_base)
-    if @year < 2006
-      if @has_reprint
-        price_base * 0.9
-      else
-        price_base * 0.95
-      end
-    elsif @year <= 2010
-      price_base * 0.96
-    else
-      price_base
-    end
-  end
 end
 
 
