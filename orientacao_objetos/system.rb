@@ -1,14 +1,17 @@
 require_relative "book"
+require_relative "ebook"
+require_relative "magazine"
 require_relative "stock"
 
 stock = Stock.new
 
-logic = Book.new("Lógica de Programação", 50, 2009, "Uno", true, "book")
-agile = Book.new("Agile Web", 100, 1999, "Uno", false, "book")
-ruby = Book.new("Ruby 7", 1000, 2023, "Five", true, "book")
-arch = Book.new("Arquitetura", 100, 2004, "Six", true, "book")
-mag_ruby = Book.new("Magazine Ruby", 15, 2012, "Ten", true, "mag")
-online_arch = Book.new("Arquitetura", 5000, 2004, "Six", true, "ebook")
+logic = Book.new("Lógica de Programação", 50, 2009, "Uno", true, true)
+agile = Book.new("Agile Web", 100, 1999, "Uno", false, false)
+ruby = Book.new("Ruby 7", 1000, 2023, "Five", true, false)
+arch = Book.new("Arquitetura", 100, 2004, "Six", true, false)
+online_arch = Ebook.new("Arquitetura", 5000, 2004, "Six")
+#  :title, :price, :year, :publisher, :has_reprint, :number
+mag_ruby = Magazine.new("Magazine Ruby", 15, 2012, "Capricho", true, 1)
 
 stock.books << agile << ruby << arch << agile << ruby << arch << agile << ruby << arch << logic << logic << ruby << mag_ruby << mag_ruby << online_arch
 
@@ -21,6 +24,7 @@ stock.sale ruby
 stock.sale ruby
 stock.sale ruby
 stock.sale arch
+stock.sale mag_ruby
 stock.sale mag_ruby
 
 puts "- Ebook mais vendido:"

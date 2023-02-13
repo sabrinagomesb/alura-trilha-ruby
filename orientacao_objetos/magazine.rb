@@ -1,12 +1,12 @@
-class Book
-  attr_reader :title, :price, :year, :publisher, :has_reprint
-  def initialize(title, price, year, publisher, has_reprint, has_cover)
+class Magazine
+  attr_reader :title, :price, :year, :publisher, :has_reprint, :number
+  def initialize(title, price, year, publisher, has_reprint, number)
     @title = title
     @year = year
     @has_reprint = has_reprint
-    @has_cover = has_cover
     @price = calc_price(price)
     @publisher = publisher
+    @number = number
   end
   
   def to_csv
@@ -18,11 +18,11 @@ class Book
   end
 
   def type
-    "book"
+    "mag"
   end
 
   def matches?(query)
-    ["book", "printed"].include?(query)
+    ["mag", "printed"].include?(query)
   end
 
   private

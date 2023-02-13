@@ -20,7 +20,8 @@ class Stock
   end
 
   def respond_to?(name)
-    name.to_s.match( "(.+)_best_seller_by_(.+)") || super
+    matched = name.to_s.match( "(.+)_best_seller_by_(.+)")
+    !!(matched) || super
   end
 
   def export_csv
@@ -59,7 +60,7 @@ class Stock
   end
 
   def best_seller_by(type, &field)
-    @sales.select { |l| l.type == type} .sort { | sale1, sale2 |
+    @sales.select { |product| product.matches?(type)} .sort { | sale1, sale2 |
       sales_amount_by_title(sale1, &field) <=>
       sales_amount_by_title(sale2, &field)
     }.last

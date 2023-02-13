@@ -1,28 +1,22 @@
-class Book
-  attr_reader :title, :price, :year, :publisher, :has_reprint
-  def initialize(title, price, year, publisher, has_reprint, has_cover)
+class Ebook
+  attr_reader :title, :price, :year, :publisher
+  def initialize(title, price, year, publisher)
     @title = title
     @year = year
-    @has_reprint = has_reprint
-    @has_cover = has_cover
     @price = calc_price(price)
     @publisher = publisher
+  end
+  
+  def type
+    "ebook"
   end
   
   def to_csv
     "#{@title},#{@year},#{@price}"
   end
 
-  def has_reprint?
-    @has_reprint
-  end
-
-  def type
-    "book"
-  end
-
   def matches?(query)
-    ["book", "printed"].include?(query)
+    ["ebook", "digital"].include?(query)
   end
 
   private
