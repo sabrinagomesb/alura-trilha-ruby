@@ -1,21 +1,15 @@
-require_relative 'Product'
+require_relative 'product'
+require_relative 'printer'
 
-class Book
+class Book < Product
   attr_reader :has_reprint
 
-  include Product
+  include Printer
 
   def initialize(title, price, year, publisher, has_reprint, has_cover)
-    @title = title
-    @year = year
+    super(title, price, year, publisher)
     @has_reprint = has_reprint
     @has_cover = has_cover
-    @price = calc_price(price)
-    @publisher = publisher
-  end
-  
-  def has_reprint?
-    @has_reprint
   end
 
   def type
@@ -25,7 +19,4 @@ class Book
   def matches?(query)
     ["book", "printed"].include?(query)
   end
-
 end
-
-

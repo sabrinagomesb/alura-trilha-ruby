@@ -1,6 +1,13 @@
-module Product
+class Product
 
   attr_reader :title, :price, :year, :publisher
+
+  def initialize(title, price, year, publisher)
+    @title = title
+    @year = year
+    @price = calc_price(price)
+    @publisher = publisher
+  end
 
   def to_csv
     "#{@title},#{@year},#{@price}"

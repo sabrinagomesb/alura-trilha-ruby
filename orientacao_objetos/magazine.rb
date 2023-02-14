@@ -1,23 +1,16 @@
 require_relative 'product'
 
-class Magazine
+class Magazine < Product
   attr_reader :has_reprint, :number
 
-  include Product
+  include Printer
 
   def initialize(title, price, year, publisher, has_reprint, number)
-    @title = title
-    @year = year
+    super(title, price, year, publisher)
     @has_reprint = has_reprint
-    @price = calc_price(price)
-    @publisher = publisher
     @number = number
   end
   
-  def has_reprint?
-    @has_reprint
-  end
-
   def type
     "mag"
   end
@@ -26,5 +19,3 @@ class Magazine
     ["mag", "printed"].include?(query)
   end
 end
-
-
